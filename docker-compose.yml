@@ -1,0 +1,26 @@
+version: "3"
+services:
+  backend:
+    build: ./backend
+    container_name: streye-backend
+    ports:
+      - "3000"
+    networks:
+      - streye-network
+    volumes:
+      - ./backend/streye.db:/go/streye.db
+
+  frontend:
+    build: ./frontend
+    container_name: streye-frontend
+    ports: 
+        - "80:80"
+        - "1935:1935"
+    networks:
+        - streye-network
+    volumes: 
+        - ./frontend/nginx.conf:/etc/nginx/nginx.conf
+        - ./recordings/:/tmp/rec/
+    
+networks:
+  streye-network:
