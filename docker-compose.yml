@@ -12,7 +12,11 @@ services:
       - videos:/tmp/rec/
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args: 
+        - username=streye
+        - password=eyerts
     container_name: streye-frontend
     ports: 
         - "80:80"

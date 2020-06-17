@@ -17,7 +17,10 @@ FROM tiangolo/nginx-rtmp
 RUN apt-get update && apt-get install -y \
     apache2-utils
 
-RUN htpasswd -b -c /etc/nginx/.htpasswd streye eyerts &&\
+ARG username
+ARG password
+
+RUN htpasswd -b -c /etc/nginx/.htpasswd ${username} ${password} &&\
     mkdir /tmp/hls &&\
     mkdir /tmp/rec &&\
     chown -R nobody:root /tmp/rec &&\

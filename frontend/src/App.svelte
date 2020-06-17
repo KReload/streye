@@ -15,13 +15,11 @@
 
   let data = {
     name: "",
-    twitchToken: ""
   };
 
   let addStream = () => {
     const newStream = {
       name: data.name,
-      twitchToken: data.twitchToken
     };
     fetch("/api/stream", {
       method: "POST",
@@ -34,7 +32,6 @@
         data = {
           id: null,
           name: "",
-          twitchToken: "",
           playUrl: "",
           paths: [],
         };
@@ -79,7 +76,6 @@
       data = {
         id: null,
         name: "",
-        twitchToken: "",
         playUrl: "",
         paths: [],
       };
@@ -144,15 +140,6 @@
                   id="text"
                   placeholder="Name" />
               </div>
-              <div class="form-group">
-                <label for="category">Twitch key (optional)</label>
-                <input
-                  bind:value={data.twitchToken}
-                  type="text"
-                  class="form-control"
-                  id="text"
-                  placeholder="Twitch key" />
-              </div>
               {#if isEdit === false}
                 <button
                   type="submit"
@@ -183,9 +170,8 @@
             <ul>
               <li><div class="h4">Step 1:</div> Create stream</li>
               <li><div class="h4">Step 2:</div> Copy the token</li>
-              <li><div class="h4">Step 3:</div> Go to stream software and fill url with: rtmp://ip-address/live and key stream with given token</li>
-              <li><div class="h4">Step 4:</div> Reload page when stream is starting to get a Play uri to add to http://ip-address/tv/"play uri"</li>
-              <li><div class="h4">Step 5:</div> Reload page when stream is done to get download link</li>
+              <li><div class="h4">Step 3:</div> Go to streaming software and fill url with: rtmp://ip-address/live and key stream with given token</li>
+              <li><div class="h4">Step 4:</div> Reload page when stream is done to get download link</li>
             </ul>
           </div>
         </div>
@@ -209,12 +195,6 @@
               <hr/>
               <p class="h3">Play uri</p>
               <div>/{stream.playUrl}.m3u8</div>
-              {/if}
-
-              {#if stream.twitchToken}
-              <hr/>
-              <p class="h3">Twitch key</p>
-              <p class="card-text">{stream.twitchToken}</p>
               {/if}
               
               {#if stream.paths}
@@ -257,6 +237,13 @@
                 <button class="btn btn-danger" on:click={() => confirmThis(deleteStream, stream.id)}>
                   Delete
                 </button>
+
+                <span slot="title">
+                  Delete stream
+                </span>
+                <span slot="description">
+                  Are you sure you want to delete this stream ? You should download all saved videos before deleting.
+                </span>
               </Confirm>
             </div>
           </div>

@@ -16,12 +16,11 @@ import (
 )
 
 type Stream struct {
-	ID          int      `json:"id" storm:"id,increment"`
-	Name        string   `json:"name"`
-	Token       string   `json:"token" storm:"unique"`
-	TwitchToken string   `json:"twitchToken"`
-	Paths       []string `json:"paths"`
-	PlayUrl     string   `json:"playUrl"`
+	ID      int      `json:"id" storm:"id,increment"`
+	Name    string   `json:"name"`
+	Token   string   `json:"token" storm:"unique"`
+	Paths   []string `json:"paths"`
+	PlayUrl string   `json:"playUrl"`
 }
 
 type NginxStream struct {
@@ -135,7 +134,6 @@ func deleteStream(w http.ResponseWriter, r *http.Request) {
 
 func canLive(w http.ResponseWriter, r *http.Request) {
 	var stream Stream
-	r.ParseForm()
 	token := r.FormValue("name")
 	// Check if token is in streaming list
 	err = db.One("Token", token, &stream)
@@ -150,15 +148,7 @@ func canLive(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	req := r.URL.Query()
-	if stream.TwitchToken != "" {
-		req.Add("twitch_key", stream.TwitchToken)
-
-	}
-
 	escapedPath := replaceIllegalFilepath(stream.Name)
-	req.Set("name", stream.Name)
-	r.URL.RawQuery = req.Encode()
 
 	stream.PlayUrl = strconv.Itoa(stream.ID) + "-" + escapedPath
 
