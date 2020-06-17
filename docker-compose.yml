@@ -9,6 +9,7 @@ services:
       - streye-network
     volumes:
       - ./backend/streye.db:/go/streye.db
+      - videos:/tmp/rec/
 
   frontend:
     build: ./frontend
@@ -17,10 +18,15 @@ services:
         - "80:80"
         - "1935:1935"
     networks:
-        - streye-network
+      streye-network:
+        ipv4_address: 172.18.0.3
     volumes: 
         - ./frontend/nginx.conf:/etc/nginx/nginx.conf
-        - ./recordings/:/tmp/rec/
+        - videos:/tmp/rec/
+    depends_on: 
+      - backend
     
 networks:
   streye-network:
+volumes:
+  videos:

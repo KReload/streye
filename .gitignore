@@ -2,3 +2,4 @@ recordings/*
 backend/backend.exe
 backend/streye.db
 .Dockerignore
+rec
